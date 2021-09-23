@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг»
 
 * Студент: [Katerina Miteneva](https://up.htmlacademy.ru/javascript/24/user/199591).
-* Наставник: `Неизвестно`.
+* Наставник: Irina Cherkasova
 
 ---
 
