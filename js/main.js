@@ -16,3 +16,20 @@ function getRandomNumber(min, max) {
 };
 
 getRandomNumber(10, 700);
+
+function getRdmFloatNumber(min, max, floatPoint) {
+   
+     let number = Math.random() * max + min; 
+
+    if (max <= min) {
+
+        console.log('Внимание! Проверьте правильно ли указан диапазон чисел.');
+        number = Math.random() * min + max;
+    
+    };
+
+    return number.toFixed(floatPoint);
+
+};
+
+getRdmFloatNumber(50, 100, 3);
