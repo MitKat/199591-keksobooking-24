@@ -1,35 +1,26 @@
-function getRandomNumber(min, max) {
-    if (min < 0) {
-        console.log('Внимание ошибка! Введите только положительные числа.');
-    }
+function getRandomNumber(number1, number2) {
+  if (number1 < 0 || number2 < 0) {
+    return null;
+  }
 
+  const min = Math.min(number1, number2);
+  const max = Math.max(number1, number2);
 
-    let number = Math.floor(Math.random() * max) + min; 
-
-    if (max <= min) {
-        console.log('Внимание! Проверьте правильно ли указан диапазон чисел.');
-        number = Math.floor(Math.random() * min) + max;
-    };
-
-    return number;
-
-};
+  return Math.floor(Math.random() * (max-min+1)) + min;
+}
 
 getRandomNumber(10, 700);
 
-function getRdmFloatNumber(min, max, floatPoint) {
-   
-     let number = Math.random() * max + min; 
+function getRdmFloatNumber(number1, number2, floatPoint) {
+  if (number1 < 0 || number2 < 0) {
+    return null;
+  }
 
-    if (max <= min) {
+  const min = Math.min(number1, number2);
+  const max = Math.max(number1, number2);
 
-        console.log('Внимание! Проверьте правильно ли указан диапазон чисел.');
-        number = Math.random() * min + max;
-    
-    };
-
-    return number.toFixed(floatPoint);
-
-};
+  const number = Math.random() * (max-min+1) + min;
+  return number.toFixed(floatPoint);
+}
 
 getRdmFloatNumber(50, 100, 3);
