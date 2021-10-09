@@ -41,48 +41,73 @@ const TYPE = [
 ];
 
 const FEATURES = [
-  'palace',
-  'flat',
-  'house',
-  'bungalow',
-  'hotel',
+  'wi-fi',
+  'dishwasher',
+  'parking',
+  'washer',
+  'elevator',
+  'conditioner',
 ];
 
+const SIMILAR_OFFER_COUNT = 10;
 
-const author = {
-  avatar: '', //адрес изображения
-};
+const avatarArchive = [
+  'img/avatars/user01.png',
+  'img/avatars/user02.png',
+  'img/avatars/user03.png',
+  'img/avatars/user04.png',
+  'img/avatars/user05.png',
+  'img/avatars/user06.png',
+  'img/avatars/user07.png',
+  'img/avatars/user08.png',
+  'img/avatars/user09.png',
+  'img/avatars/user10.png',
+];
+
+const photoArchive = [
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
+];
+
+const getRandomArrayElement = (elements) => elements[getRandomNumber(0, elements.length - 1)];
+
+let index = 0;
 
 const getInformation = () => {
-  //диапазон задала сама, так как в задании ничего про него нет. просто случайное целое число
-  //использую для price, guests rooms, но предполагаю, что позже будет это как то по другому
-  const randomNumber = getRandomNumber(0, 100);
+  const avatar = avatarArchive[index];
+  index += 1;
 
-  const latitude = getRdmFloatNumber(35.65000, 35.70000);
-  const longitude = getRdmFloatNumber(139.70000, 139.80000);
-
-  // for (let i=0; i < 6; i++) {
-
-  // };
+  const latitude = getRdmFloatNumber(35.65000, 35.70000, 5);
+  const longitude = getRdmFloatNumber(139.70000, 139.80000, 5);
 
   const location = {
     lat: latitude,
     lng: longitude,
   };
 
-  const offer = {
-    title: 'Главное предложение месяца',
-    address: location.lat, //не совсем понимаю, почему линт ругается
-    price: randomNumber,
-    guests: randomNumber,
-    rooms: randomNumber,
-    type: TYPE[getRandomNumber(0, TYPE.length-1)],
-    checkin: TIME[getRandomNumber(0, TIME.length-1)],
-    checkout: TIME[getRandomNumber(0, TIME.length-1)],
-  };
+  const featuresLength = getRandomNumber(1,6);
+  const featuresArray = FEATURES.slice(0, featuresLength);
 
-  return console.log(Object.values(offer).join(', '));
+  const photosLength = getRandomNumber(1,6);
+  const photosArray = photoArchive.slice(0, photosLength);
+
+  return {
+    author: avatar,
+    title: 'Главное предложение месяца',
+    address: location.lat + ' ' + location.lng,
+    price: getRandomNumber(300, 1000),
+    guests: getRandomNumber(1, 10),
+    rooms: getRandomNumber(1, 200),
+    type: getRandomArrayElement(TYPE),
+    checkin: getRandomArrayElement(TIME),
+    checkout: getRandomArrayElement(TIME),
+    features: featuresArray,
+    description: 'бесконечное солнце в вашей жизни',
+    photos: photosArray,
+  };
 };
 
+const similarOffer = Array.from({length: SIMILAR_OFFER_COUNT}, getInformation);
 
-getInformation();
+//console.log(similarOffer);
