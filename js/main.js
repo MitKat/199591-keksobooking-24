@@ -11,7 +11,7 @@ function getRandomNumber(number1, number2) {
 
 getRandomNumber(10, 700);
 
-function getRdmFloatNumber(number1, number2, floatPoint) {
+function getRandomFloatNumber(number1, number2, floatPoint) {
   if (number1 < 0 || number2 < 0) {
     return null;
   }
@@ -23,16 +23,16 @@ function getRdmFloatNumber(number1, number2, floatPoint) {
   return number.toFixed(floatPoint);
 }
 
-getRdmFloatNumber(50, 100, 3);
+getRandomFloatNumber(50, 100, 3);
 
-//массив из фиксированного времени
-const TIME = [
+
+const timeOffer = [
   '12:00',
   '13:00',
   '14:00',
 ];
 
-const TYPE = [
+const typeOffer = [
   'palace',
   'flat',
   'house',
@@ -40,7 +40,7 @@ const TYPE = [
   'hotel',
 ];
 
-const FEATURES = [
+const featuresOffer = [
   'wi-fi',
   'dishwasher',
   'parking',
@@ -70,44 +70,65 @@ const photoArchive = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
 ];
 
+const Lat = {
+  MIN: 35.65000,
+  MAX: 35.70000,
+  FIXFLOAT: 5,
+};
+
+const Long = {
+  MIN: 139.70000,
+  MAX: 139.80000,
+  FIXFLOAT: 5,
+};
+
 const getRandomArrayElement = (elements) => elements[getRandomNumber(0, elements.length - 1)];
 
 let index = 0;
 
-const getInformation = () => {
-  const avatar = avatarArchive[index];
+const generateOffer = () => {
+
   index += 1;
 
-  const latitude = getRdmFloatNumber(35.65000, 35.70000, 5);
-  const longitude = getRdmFloatNumber(139.70000, 139.80000, 5);
+  const latitude = getRandomFloatNumber(Lat.MIN, Lat.MAX, Lat.FIXFLOAT);
+  const longitude = getRandomFloatNumber(Long.MIN, Long.MAX, Long.FIXFLOAT);
 
   const location = {
     lat: latitude,
     lng: longitude,
   };
 
-  const featuresLength = getRandomNumber(1,6);
-  const featuresArray = FEATURES.slice(0, featuresLength);
+  const featuresLength = getRandomNumber(1, featuresOffer.length);
+  const features = featuresOffer.slice(0, featuresLength);
 
-  const photosLength = getRandomNumber(1,6);
-  const photosArray = photoArchive.slice(0, photosLength);
+  const photosLength = getRandomNumber(1, photoArchive.length);
+  const photos = photoArchive.slice(0, photosLength);
 
-  return {
-    author: avatar,
-    title: 'Главное предложение месяца',
-    address: location.lat + ' ' + location.lng,
-    price: getRandomNumber(300, 1000),
-    guests: getRandomNumber(1, 10),
-    rooms: getRandomNumber(1, 200),
-    type: getRandomArrayElement(TYPE),
-    checkin: getRandomArrayElement(TIME),
-    checkout: getRandomArrayElement(TIME),
-    features: featuresArray,
-    description: 'бесконечное солнце в вашей жизни',
-    photos: photosArray,
+  return  {
+    author : {
+      avatar: avatarArchive[index % avatarArchive.length],
+    },
+    offer : {
+      title: 'Главное предложение месяца',
+      address: `${location.lat} ${location.lng}`,
+      price: getRandomNumber(300, 1000),
+      guests: getRandomNumber(1, 10),
+      rooms: getRandomNumber(1, 200),
+      type: getRandomArrayElement(typeOffer),
+      checkin: getRandomArrayElement(timeOffer),
+      checkout: getRandomArrayElement(timeOffer),
+      features,
+      description: 'бесконечное солнце в вашей жизни',
+      photos,
+    },
+    location,
   };
 };
 
-const similarOffer = Array.from({length: SIMILAR_OFFER_COUNT}, getInformation);
+const similarOffer = Array.from({length: SIMILAR_OFFER_COUNT}, generateOffer);
+
+export {similarOffer};
 
 //console.log(similarOffer);
+
+
