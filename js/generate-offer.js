@@ -1,4 +1,4 @@
-import { getRandomNumber, getRandomFloatNumber, getRandomArrayElement } from '/js/utils/get-random-number.js';
+import { getRandomNumber, getRandomFloatNumber, getRandomArrayElement } from '/js/utils/random.js';
 
 const timeOffer = [
   '12:00',
