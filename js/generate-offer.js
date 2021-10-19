@@ -6,16 +6,24 @@ const timeOffer = [
   '14:00',
 ];
 
-const typeOffer = [
-  'palace',
-  'flat',
-  'house',
-  'bungalow',
-  'hotel',
-];
+// const typeOffer = [
+//   'palace',
+//   'flat',
+//   'house',
+//   'bungalow',
+//   'hotel',
+// ];
+const type = {
+  palace: 'Дворец',
+  bungalow: 'Бунгало',
+  flat: 'Квартира',
+  house: 'Дом',
+  hotel: 'Отель',
+};
+const typeOffer = Object.keys(type);
 
 const featuresOffer = [
-  'wi-fi',
+  'wifi',
   'dishwasher',
   'parking',
   'washer',
@@ -23,7 +31,7 @@ const featuresOffer = [
   'conditioner',
 ];
 
-const SIMILAR_OFFER_COUNT = 10;
+const SIMILAR_OFFER_COUNT = 1;
 
 const avatarArchive = [
   'img/avatars/user01.png',
@@ -86,7 +94,8 @@ const generateOffer = () => {
       price: getRandomNumber(300, 1000),
       guests: getRandomNumber(1, 10),
       rooms: getRandomNumber(1, 200),
-      type: getRandomArrayElement(typeOffer),
+      typeOffer: getRandomArrayElement(typeOffer),
+      type,
       checkin: getRandomArrayElement(timeOffer),
       checkout: getRandomArrayElement(timeOffer),
       features,
