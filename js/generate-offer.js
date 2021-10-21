@@ -1,60 +1,5 @@
 import { getRandomNumber, getRandomFloatNumber, getRandomArrayElement } from '/js/utils/random.js';
-
-const timeOffer = [
-  '12:00',
-  '13:00',
-  '14:00',
-];
-
-const typeOffer = [
-  'palace',
-  'flat',
-  'house',
-  'bungalow',
-  'hotel',
-];
-
-const featuresOffer = [
-  'wi-fi',
-  'dishwasher',
-  'parking',
-  'washer',
-  'elevator',
-  'conditioner',
-];
-
-const SIMILAR_OFFER_COUNT = 10;
-
-const avatarArchive = [
-  'img/avatars/user01.png',
-  'img/avatars/user02.png',
-  'img/avatars/user03.png',
-  'img/avatars/user04.png',
-  'img/avatars/user05.png',
-  'img/avatars/user06.png',
-  'img/avatars/user07.png',
-  'img/avatars/user08.png',
-  'img/avatars/user09.png',
-  'img/avatars/user10.png',
-];
-
-const photoArchive = [
-  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
-  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
-  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
-];
-
-const Lat = {
-  MIN: 35.65000,
-  MAX: 35.70000,
-  FIXFLOAT: 5,
-};
-
-const Long = {
-  MIN: 139.70000,
-  MAX: 139.80000,
-  FIXFLOAT: 5,
-};
+import {SIMILAR_OFFER_COUNT, typeOffer, Lat, Long, photoArchive, avatarArchive, timeOffer, featuresOffer} from '/js/utils/given-data.js';
 
 let index = 0;
 
@@ -86,7 +31,7 @@ const generateOffer = () => {
       price: getRandomNumber(300, 1000),
       guests: getRandomNumber(1, 10),
       rooms: getRandomNumber(1, 200),
-      type: getRandomArrayElement(typeOffer),
+      typeOffer: getRandomArrayElement(typeOffer),
       checkin: getRandomArrayElement(timeOffer),
       checkout: getRandomArrayElement(timeOffer),
       features,
