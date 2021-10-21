@@ -1,3 +1,4 @@
+import {type} from '/js/utils/given-data.js';
 import {similarOffer} from '/js/generate-offer.js';
 
 const mapList = document.querySelector('#map-canvas');
@@ -15,8 +16,15 @@ const getPopupItem = ({author, offer, location}) => {
   popupItem.querySelector('.popup__text--price').textContent = `${offer.price} ₽/ночь`;
   popupItem.querySelector('.popup__text--capacity').textContent = `${offer.rooms} комнат для ${offer.guests} гостей`;
   popupItem.querySelector('.popup__text--time').textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
-  popupItem.querySelector('.popup__description').textContent = offer.description;
-  popupItem.querySelector('.popup__type').textContent = offer.type[offer.typeOffer];
+
+  const descriptionElement = popupItem.querySelector('.popup__description');
+  if (offer.description) {
+    descriptionElement.textContent = offer.description;
+  } else {
+    popupItem.removeChild(descriptionElement);
+  }
+
+  popupItem.querySelector('.popup__type').textContent = type[offer.typeOffer];
 
   const featuresFragment = document.createDocumentFragment();
 
