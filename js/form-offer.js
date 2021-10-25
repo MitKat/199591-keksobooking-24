@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 //import {type} from '/js/utils/given-data.js';
 
 //валидация заголовка объявления
@@ -40,11 +41,10 @@ priceInput.addEventListener('input', () => {
   const valuePrice = priceInput.value;
 
   if (valuePrice > MAX_PRICE_VALUE) {
-    priceInput.setCustomValidity(`Очень дорого! max=${MAX_PRICE_VALUE}`);
+    priceInput.setCustomValidity(`Максимальная цена за ночь =${MAX_PRICE_VALUE}`);
   } else {
     priceInput.setCustomValidity ('');
   }
-  priceInput.reportValidity();
 });
 
 //Синхронизация времени заезда и выезда
@@ -64,58 +64,55 @@ const roomOption = document.querySelector('#room_number');
 const capacityOption = document.querySelector('#capacity');
 
 const form = document.querySelector('.ad-form');
-form.onsubmit = function(evt) {
 
+const onValidityForm = (evt) => {
   //проверка цены в соответствии с типом жилья
-  if (priceInput.value <= 999) {
-    if (typeOption.value == 'bungalow') {
-      priceInput.reportValidity();
+  if (priceInput.value < minPriceType.flat) {
+    if (typeOption.value === 'bungalow') {
+      priceInput.setCustomValidity (' ');
     } else {
       evt.preventDefault();
-      priceInput.setCustomValidity ('Сделайте цену выше!');
+      priceInput.setCustomValidity ('Цена для выбранного жилья должна быть выше');
     }
   }
-  if (priceInput.value <= 2999 && priceInput.value > 999) {
-    if (typeOption.value == 'bungalow' || typeOption.value == 'flat') {
-      priceInput.reportValidity();
+  if (priceInput.value < minPriceType.hotel && priceInput.value >= minPriceType.flat) {
+    if (typeOption.value === 'bungalow' || typeOption.value === 'flat') {
+      priceInput.setCustomValidity (' ');
     } else {
       evt.preventDefault();
-      priceInput.setCustomValidity ('Сделайте цену выше!');
+      priceInput.setCustomValidity ('Цена для выбранного жилья должна быть выше');
     }
   }
-  if (priceInput.value <= 4999 && priceInput.value > 2999) {
-    if (typeOption.value == 'house' || typeOption.value == 'palace' ) {
+  if (priceInput.value < minPriceType.house && priceInput.value >= minPriceType.hotel) {
+    if (typeOption.value === 'house' || typeOption.value === 'palace' ) {
       evt.preventDefault();
-      priceInput.setCustomValidity ('Сделайте цену выше!');
+      priceInput.setCustomValidity ('Цена для выбранного жилья должна быть выше');
     } else {
-      priceInput.reportValidity();
+      priceInput.setCustomValidity (' ');
     }
   }
-  if (priceInput.value <= 9999) {
-    if (typeOption.value == 'palace') {
+  if (priceInput.value < minPriceType.palace) {
+    if (typeOption.value === 'palace') {
       evt.preventDefault();
-      priceInput.setCustomValidity ('Сделайте цену выше!');
+      priceInput.setCustomValidity ('Цена для выбранного жилья должна быть выше');
     } else {
-      priceInput.reportValidity();
+      priceInput.setCustomValidity (' ');
     }
   }
+  // priceInput.reportValidity();
 
   // //Синхронизация количество комнат с количеством гостей
-  if (roomOption.value == 100 && capacityOption.value == 0) {
-    capacityOption.reportValidity();
-
-  } else if (roomOption.value == 1 && capacityOption.value == 1) {
-    capacityOption.reportValidity();
-  } else if (roomOption.value == 2  && (capacityOption.value == 2 || capacityOption.value == 1)) {
-    capacityOption.reportValidity();
-  } else  if (roomOption.value == 3  && (capacityOption.value == 3 || capacityOption.value == 2 ||  capacityOption.value == 1)){
-    capacityOption.reportValidity();
+  if (roomOption.value === 100 && capacityOption.value === 0) {
+    capacityOption.setCustomValidity (' ');
+  } else if (roomOption.value >= capacityOption.value && capacityOption.value!=0) {
+    capacityOption.setCustomValidity (' ');
   } else {
     evt.preventDefault();
-    capacityOption.setCustomValidity ('Проверьте тип жилья');
+    capacityOption.setCustomValidity ('Количество гостей не должно быть меньше количества комнат');
   }
-
-
+  // capacityOption.reportValidity();
 };
+
+form.addEventListener('submit', onValidityForm);
 
 
