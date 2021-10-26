@@ -37,13 +37,40 @@ typeOption.addEventListener('change', (evt) => {
 //валидация цены за одну ночь
 const MAX_PRICE_VALUE = 1000000;
 
-priceInput.addEventListener('input', () => {
+priceInput.addEventListener('input', (evt) => {
   const valuePrice = priceInput.value;
 
   if (valuePrice > MAX_PRICE_VALUE) {
     priceInput.setCustomValidity(`Максимальная цена за ночь =${MAX_PRICE_VALUE}`);
   } else {
     priceInput.setCustomValidity ('');
+  }
+
+  //валидация по минимальной цене
+  if (valuePrice < minPriceType.palace) {
+    priceInput.setCustomValidity ('');
+    if (typeOption.value === 'palace') {
+      evt.preventDefault();
+      priceInput.setCustomValidity (`Минимальная цена дворца = ${minPriceType.palace}`);
+    }
+    if (valuePrice < minPriceType.house) {
+      if (typeOption.value === 'house') {
+        evt.preventDefault();
+        priceInput.setCustomValidity (`Минимальная цена дома = ${minPriceType.house}`);
+      } else if (valuePrice < minPriceType.hotel) {
+        if (valuePrice === 'hotel') {
+          evt.preventDefault();
+          priceInput.setCustomValidity (`Минимальная цена отеля = ${minPriceType.hotel}`);
+        } else if (valuePrice < minPriceType.flat) {
+          if (typeOption.value === 'flat') {
+            evt.preventDefault();
+            priceInput.setCustomValidity (`Минимальная цена квартиры = ${minPriceType.flat}`);
+          } else {
+            priceInput.setCustomValidity ('');
+          }
+        }
+      }
+    }
   }
 });
 
@@ -59,60 +86,32 @@ optionTimeOut.addEventListener( 'change',  (evt) => {
   optionTimeIn.value =  evt.target.value;
 });
 
-// Навешиваем на форму обработчик отправки
+//Синхронизация количество комнат с количеством гостей
 const roomOption = document.querySelector('#room_number');
 const capacityOption = document.querySelector('#capacity');
 
-const form = document.querySelector('.ad-form');
+const onCapacityChange = (evt) => {
+  capacityOption.setCustomValidity (' ');
 
-const onValidityForm = (evt) => {
-  //проверка цены в соответствии с типом жилья
-  if (priceInput.value < minPriceType.flat) {
-    if (typeOption.value === 'bungalow') {
-      priceInput.setCustomValidity (' ');
-    } else {
-      evt.preventDefault();
-      priceInput.setCustomValidity ('Цена для выбранного жилья должна быть выше');
-    }
-  }
-  if (priceInput.value < minPriceType.hotel && priceInput.value >= minPriceType.flat) {
-    if (typeOption.value === 'bungalow' || typeOption.value === 'flat') {
-      priceInput.setCustomValidity (' ');
-    } else {
-      evt.preventDefault();
-      priceInput.setCustomValidity ('Цена для выбранного жилья должна быть выше');
-    }
-  }
-  if (priceInput.value < minPriceType.house && priceInput.value >= minPriceType.hotel) {
-    if (typeOption.value === 'house' || typeOption.value === 'palace' ) {
-      evt.preventDefault();
-      priceInput.setCustomValidity ('Цена для выбранного жилья должна быть выше');
-    } else {
-      priceInput.setCustomValidity (' ');
-    }
-  }
-  if (priceInput.value < minPriceType.palace) {
-    if (typeOption.value === 'palace') {
-      evt.preventDefault();
-      priceInput.setCustomValidity ('Цена для выбранного жилья должна быть выше');
-    } else {
-      priceInput.setCustomValidity (' ');
-    }
-  }
-  // priceInput.reportValidity();
-
-  // //Синхронизация количество комнат с количеством гостей
-  if (roomOption.value === 100 && capacityOption.value === 0) {
-    capacityOption.setCustomValidity (' ');
-  } else if (roomOption.value >= capacityOption.value && capacityOption.value!=0) {
-    capacityOption.setCustomValidity (' ');
-  } else {
+  if (roomOption.value < capacityOption.value) {
     evt.preventDefault();
-    capacityOption.setCustomValidity ('Количество гостей не должно быть меньше количества комнат');
+    capacityOption.setCustomValidity ('Количество гостей не должно быть больше количества комнат');
+  } else {
+    capacityOption.setCustomValidity (' ');
+  }
+  if (roomOption.value === 100 && capacityOption.value===0) {
+    capacityOption.setCustomValidity (' ');
   }
   // capacityOption.reportValidity();
 };
 
-form.addEventListener('submit', onValidityForm);
+capacityOption.addEventListener('change', onCapacityChange);
 
+const form = document.querySelector('.ad-form');
 
+form.addEventListener('submit', (evt) => {
+
+  const btn = evt.target.elements['submit-btn'];
+
+  btn.disabled = true;
+});
