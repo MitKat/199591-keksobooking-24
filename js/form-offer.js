@@ -1,24 +1,21 @@
-/* eslint-disable eqeqeq */
-//import {type} from '/js/utils/given-data.js';
 
 //валидация заголовка объявления
 const MIN_TITLE_LENGTH = 30;
+const HALF_MIN_TITLE = MIN_TITLE_LENGTH/2;
 const titleInput = document.querySelector('#title');
 
 titleInput.addEventListener('input', () => {
   const valueLength = titleInput.value.length;
 
-  if (valueLength > MIN_TITLE_LENGTH/4  && valueLength < MIN_TITLE_LENGTH) {
+  titleInput.setCustomValidity ('');
+  if (valueLength > HALF_MIN_TITLE  && valueLength < MIN_TITLE_LENGTH) {
     titleInput.setCustomValidity (`Добавьте еще ${ MIN_TITLE_LENGTH - valueLength} симв.`);
-  } else if (valueLength < MIN_TITLE_LENGTH/4 || valueLength > MIN_TITLE_LENGTH) {
-    titleInput.setCustomValidity ('');
   }
-
   titleInput.reportValidity();
 });
 
-//связываем тип жилья с placeholder цены
-
+//валидация типа жилья и цены
+const MAX_PRICE_VALUE = 1000000;
 const  minPriceType = {
   palace : 10000,
   flat : 1000,
@@ -29,49 +26,29 @@ const  minPriceType = {
 const typeOption = document.querySelector('#type');
 const priceInput = document.querySelector('#price');
 
+const onRevisePrice = () => {
+  const currentPrice = parseInt(priceInput.value, 10);
+  const minPrice = minPriceType[typeOption.value];
+
+  //валидация минимальной цены за ночь
+  if (currentPrice < minPrice) {
+    priceInput.setCustomValidity (`Минимальная цена выбранного типа жилья - ${minPrice}`);
+  }
+  //валидация максимальной цены за ночь
+  if (currentPrice > MAX_PRICE_VALUE) {
+    priceInput.setCustomValidity(`Максимальная цена за ночь - ${MAX_PRICE_VALUE}`);
+  }
+};
+
 typeOption.addEventListener('change', (evt) => {
   priceInput.placeholder = minPriceType[evt.target.value];
+  onRevisePrice();
 });
 
-
-//валидация цены за одну ночь
-const MAX_PRICE_VALUE = 1000000;
-
-priceInput.addEventListener('input', (evt) => {
-  const valuePrice = priceInput.value;
-
-  if (valuePrice > MAX_PRICE_VALUE) {
-    priceInput.setCustomValidity(`Максимальная цена за ночь =${MAX_PRICE_VALUE}`);
-  } else {
-    priceInput.setCustomValidity ('');
-  }
-
-  //валидация по минимальной цене
-  if (valuePrice < minPriceType.palace) {
-    priceInput.setCustomValidity ('');
-    if (typeOption.value === 'palace') {
-      evt.preventDefault();
-      priceInput.setCustomValidity (`Минимальная цена дворца = ${minPriceType.palace}`);
-    }
-    if (valuePrice < minPriceType.house) {
-      if (typeOption.value === 'house') {
-        evt.preventDefault();
-        priceInput.setCustomValidity (`Минимальная цена дома = ${minPriceType.house}`);
-      } else if (valuePrice < minPriceType.hotel) {
-        if (valuePrice === 'hotel') {
-          evt.preventDefault();
-          priceInput.setCustomValidity (`Минимальная цена отеля = ${minPriceType.hotel}`);
-        } else if (valuePrice < minPriceType.flat) {
-          if (typeOption.value === 'flat') {
-            evt.preventDefault();
-            priceInput.setCustomValidity (`Минимальная цена квартиры = ${minPriceType.flat}`);
-          } else {
-            priceInput.setCustomValidity ('');
-          }
-        }
-      }
-    }
-  }
+priceInput.addEventListener('input', () => {
+  priceInput.setCustomValidity ('');
+  onRevisePrice();
+  priceInput.reportValidity();
 });
 
 //Синхронизация времени заезда и выезда
@@ -90,28 +67,21 @@ optionTimeOut.addEventListener( 'change',  (evt) => {
 const roomOption = document.querySelector('#room_number');
 const capacityOption = document.querySelector('#capacity');
 
-const onCapacityChange = (evt) => {
-  capacityOption.setCustomValidity (' ');
+const onChangeRoomCapacity = () => {
+  const valueCapacity = parseInt(capacityOption.value, 10);
+  const valueRooms = parseInt(roomOption.value, 10);
+  const maxRooms = 100;
+  capacityOption.setCustomValidity ('');
 
-  if (roomOption.value < capacityOption.value) {
-    evt.preventDefault();
+  if (valueRooms < valueCapacity || valueCapacity === 0 || valueRooms === maxRooms) {
     capacityOption.setCustomValidity ('Количество гостей не должно быть больше количества комнат');
-  } else {
-    capacityOption.setCustomValidity (' ');
+    if(valueRooms===maxRooms && valueCapacity === 0) {
+      capacityOption.setCustomValidity ('');
+    }
   }
-  if (roomOption.value === 100 && capacityOption.value===0) {
-    capacityOption.setCustomValidity (' ');
-  }
-  // capacityOption.reportValidity();
+  capacityOption.reportValidity();
 };
 
-capacityOption.addEventListener('change', onCapacityChange);
+capacityOption.addEventListener('change', onChangeRoomCapacity);
 
-const form = document.querySelector('.ad-form');
-
-form.addEventListener('submit', (evt) => {
-
-  const btn = evt.target.elements['submit-btn'];
-
-  btn.disabled = true;
-});
+roomOption.addEventListener('change', onChangeRoomCapacity);
