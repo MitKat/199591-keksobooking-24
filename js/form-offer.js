@@ -1,3 +1,38 @@
+const adForm = document.querySelector('.ad-form');
+const elementsForm = adForm.children;
+const mapFilters = document.querySelector('.map__filters');
+const elementsMapFilters = mapFilters.children;
+
+const inactiveState = () => {
+
+  adForm.classList.add('ad-form--disabled');
+  for (let i=0; i<elementsForm.length; i++) {
+    elementsForm[i].setAttribute('disabled', 'disabled');
+  }
+
+  mapFilters.classList.add('map__filters--disabled');
+  for (let i=0; i<elementsMapFilters.length; i++) {
+    elementsMapFilters[i].setAttribute('disabled', 'disabled');
+  }
+};
+
+inactiveState();
+
+
+const activeState = function() {
+  adForm.classList.remove('ad-form--disabled');
+  for (let i=0; i<elementsForm.length; i++) {
+    elementsForm[i].removeAttribute('disabled', 'disabled');
+  }
+
+  mapFilters.classList.remove('map__filters--disabled');
+  for (let i=0; i<elementsMapFilters.length; i++) {
+    elementsMapFilters[i].removeAttribute('disabled', 'disabled');
+  }
+};
+
+activeState();
+
 
 //валидация заголовка объявления
 const MIN_TITLE_LENGTH = 30;
@@ -26,10 +61,11 @@ const  minPriceType = {
 const typeOption = document.querySelector('#type');
 const priceInput = document.querySelector('#price');
 
-const onRevisePrice = () => {
+const validatePrice = () => {
   const currentPrice = parseInt(priceInput.value, 10);
   const minPrice = minPriceType[typeOption.value];
 
+  priceInput.setCustomValidity ('');
   //валидация минимальной цены за ночь
   if (currentPrice < minPrice) {
     priceInput.setCustomValidity (`Минимальная цена выбранного типа жилья - ${minPrice}`);
@@ -38,17 +74,17 @@ const onRevisePrice = () => {
   if (currentPrice > MAX_PRICE_VALUE) {
     priceInput.setCustomValidity(`Максимальная цена за ночь - ${MAX_PRICE_VALUE}`);
   }
+
+  priceInput.reportValidity();
 };
 
 typeOption.addEventListener('change', (evt) => {
   priceInput.placeholder = minPriceType[evt.target.value];
-  onRevisePrice();
+  validatePrice();
 });
 
 priceInput.addEventListener('input', () => {
-  priceInput.setCustomValidity ('');
-  onRevisePrice();
-  priceInput.reportValidity();
+  validatePrice();
 });
 
 //Синхронизация времени заезда и выезда
