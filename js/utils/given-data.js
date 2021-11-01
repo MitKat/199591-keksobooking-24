@@ -1,4 +1,4 @@
-const SIMILAR_OFFER_COUNT = 1;
+const SIMILAR_OFFER_COUNT = 10;
 
 const type = {
   palace: 'Дворец',

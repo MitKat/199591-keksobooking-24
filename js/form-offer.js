@@ -3,7 +3,7 @@ const elementsForm = adForm.children;
 const mapFilters = document.querySelector('.map__filters');
 const elementsMapFilters = mapFilters.children;
 
-const inactiveState = () => {
+const disableForms = () => {
 
   adForm.classList.add('ad-form--disabled');
   for (let i=0; i<elementsForm.length; i++) {
@@ -16,10 +16,10 @@ const inactiveState = () => {
   }
 };
 
-inactiveState();
+disableForms();
 
 
-const activeState = function() {
+const enableForms = function() {
   adForm.classList.remove('ad-form--disabled');
   for (let i=0; i<elementsForm.length; i++) {
     elementsForm[i].removeAttribute('disabled', 'disabled');
@@ -30,9 +30,6 @@ const activeState = function() {
     elementsMapFilters[i].removeAttribute('disabled', 'disabled');
   }
 };
-
-activeState();
-
 
 //валидация заголовка объявления
 const MIN_TITLE_LENGTH = 30;
@@ -121,3 +118,5 @@ const onChangeRoomCapacity = () => {
 capacityOption.addEventListener('change', onChangeRoomCapacity);
 
 roomOption.addEventListener('change', onChangeRoomCapacity);
+
+export {enableForms};

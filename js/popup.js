@@ -1,7 +1,7 @@
 import {type} from '/js/utils/given-data.js';
 import {similarOffer} from '/js/generate-offer.js';
 
-const mapList = document.querySelector('#map-canvas');
+// const mapList = document.querySelector('#map-canvas');
 const card = document.querySelector('#card');
 const popup = card.content.querySelector('.popup');
 
@@ -56,8 +56,8 @@ const getPopupItem = ({author, offer, location}) => {
 similarOffer.forEach((offer) => {
 
   const popupItems = getPopupItem(offer);
-  mapList.appendChild(popupItems);
-
+  // mapList.appendChild(popupItems);
+  
 });
 
-export {popup};
+export {similarOffer};
