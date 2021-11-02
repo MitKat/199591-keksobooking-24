@@ -1,11 +1,7 @@
 import {type} from '/js/utils/given-data.js';
-// import {similarOffer} from '/js/generate-offer.js';
 
-// const mapList = document.querySelector('#map-canvas');
 const card = document.querySelector('#card');
 const popup = card.content.querySelector('.popup');
-
-const popupFragment = document.createDocumentFragment();
 
 const getPopupItem = ({author, offer, location}) => {
   const popupItem = popup.cloneNode(true);
@@ -49,14 +45,7 @@ const getPopupItem = ({author, offer, location}) => {
   popupItem.querySelector('.popup__photos').innerHTML= ' ';
   popupItem.querySelector('.popup__photos').append(photosFragment);
 
-  popupFragment.appendChild(popupItem);
-  return popupFragment;
+  return popupItem;
 };
-
-// similarOffer.forEach((offer) => {
-
-//   const popupItems = getPopupItem(offer);
-//   // mapList.appendChild(popupItems);
-// });
 
 export {getPopupItem};

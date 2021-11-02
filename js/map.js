@@ -54,29 +54,14 @@ mainMarker.on('moveend', (evt) => {
 //маркеры похижих объявлений
 const markerGroup = L.layerGroup().addTo(map);
 
-const points = [];
-for (let i=0; i< similarOffer.length; i++) {
-  points[i] = {
-    lat: similarOffer[i].location.lat,
-    lng: similarOffer[i].location.lng,
-  };
-}
-
-points.forEach((point) => {
-
-  const {lat, lng} = point;
-
+for (const item of similarOffer) {
   const icon = L.icon({
     iconUrl: 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg',
     iconSize: [40, 40],
     iconAnchor: [20, 40],
   });
-
   const marker = L.marker(
-    {
-      lat,
-      lng,
-    },
+    item.location,
     {
       icon,
     },
@@ -84,5 +69,6 @@ points.forEach((point) => {
 
   marker
     .addTo(markerGroup)
-    .bindPopup(getPopupItem(similarOffer[4]));
-});
+    .bindPopup(getPopupItem(item));
+}
+
