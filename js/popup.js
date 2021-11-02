@@ -1,5 +1,5 @@
 import {type} from '/js/utils/given-data.js';
-import {similarOffer} from '/js/generate-offer.js';
+// import {similarOffer} from '/js/generate-offer.js';
 
 // const mapList = document.querySelector('#map-canvas');
 const card = document.querySelector('#card');
@@ -53,11 +53,10 @@ const getPopupItem = ({author, offer, location}) => {
   return popupFragment;
 };
 
-similarOffer.forEach((offer) => {
+// similarOffer.forEach((offer) => {
 
-  const popupItems = getPopupItem(offer);
-  // mapList.appendChild(popupItems);
-  
-});
+//   const popupItems = getPopupItem(offer);
+//   // mapList.appendChild(popupItems);
+// });
 
-export {similarOffer};
+export {getPopupItem};

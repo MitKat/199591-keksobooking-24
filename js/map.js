@@ -1,13 +1,23 @@
 import {enableForms} from '/js/form-offer.js';
-import {similarOffer} from '/js/popup.js';
+import {similarOffer} from '/js/generate-offer.js';
+import {getPopupItem} from '/js/popup.js';
+
+const LAT_TOKIO = 35.68950;
+const LNG_TOKIO = 139.69171;
+const addressInput = document.querySelector('#address');
+const FLOAT_POINT = 5;
+const setMainAddress = (lat, lng) => {
+  addressInput.value = `${lat.toFixed(FLOAT_POINT)}; ${lng.toFixed(FLOAT_POINT)}`;
+};
 
 const map = L.map('map-canvas')
   .on('load', () => {
     enableForms();
+    setMainAddress(LAT_TOKIO, LNG_TOKIO);
   })
   .setView({
-    lat: 35.68950,
-    lng: 139.69171,
+    lat: LAT_TOKIO,
+    lng: LNG_TOKIO,
   }, 9);
 
 L.tileLayer(
@@ -26,8 +36,8 @@ const mainPinIcon = L.icon({
 
 const mainMarker = L.marker(
   {
-    lat: 35.68950,
-    lng: 139.69171,
+    lat: LAT_TOKIO,
+    lng: LNG_TOKIO,
   },
   {
     draggable: true,
@@ -36,36 +46,43 @@ const mainMarker = L.marker(
 );
 mainMarker.addTo(map);
 
-const addressInput = document.querySelector('#address');
-const FLOAT_POINT = 5;
-
 mainMarker.on('moveend', (evt) => {
   const mainAnchor = evt.target.getLatLng();
-  const mainAnchorLat = mainAnchor.lat.toFixed(FLOAT_POINT);
-  const mainAnchorLng = mainAnchor.lng.toFixed(FLOAT_POINT);
-  addressInput.value = `${mainAnchorLat}; ${mainAnchorLng}`;
+  setMainAddress(mainAnchor.lat, mainAnchor.lng);
 });
 
 //маркеры похижих объявлений
 const markerGroup = L.layerGroup().addTo(map);
 
+const points = [];
 for (let i=0; i< similarOffer.length; i++) {
-  const pinIcons = L.icon({
-    iconUrl: '/img/pin.svg',
+  points[i] = {
+    lat: similarOffer[i].location.lat,
+    lng: similarOffer[i].location.lng,
+  };
+}
+
+points.forEach((point) => {
+
+  const {lat, lng} = point;
+
+  const icon = L.icon({
+    iconUrl: 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg',
     iconSize: [40, 40],
     iconAnchor: [20, 40],
   });
-  const markers = L.marker(
+
+  const marker = L.marker(
     {
-      lat: similarOffer[i].location.lat,
-      lng: similarOffer[i].location.lng,
+      lat,
+      lng,
     },
     {
-      draggable: false,
-      pinIcons,
+      icon,
     },
   );
-  markers
+
+  marker
     .addTo(markerGroup)
-    .bindPopup(similarOffer[i]);
-}
+    .bindPopup(getPopupItem(similarOffer[4]));
+});
