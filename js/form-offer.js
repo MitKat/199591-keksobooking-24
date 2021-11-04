@@ -1,10 +1,13 @@
+import {showErrorSent} from './success-sent.js';
+import {sendData} from './utils/api.js';
+
 const adForm = document.querySelector('.ad-form');
 const elementsForm = adForm.children;
 const mapFilters = document.querySelector('.map__filters');
 const elementsMapFilters = mapFilters.children;
 
+//форма в неактивном состоянии
 const disableForms = () => {
-
   adForm.classList.add('ad-form--disabled');
   for (let i=0; i<elementsForm.length; i++) {
     elementsForm[i].setAttribute('disabled', 'disabled');
@@ -15,11 +18,10 @@ const disableForms = () => {
     elementsMapFilters[i].setAttribute('disabled', 'disabled');
   }
 };
-
 disableForms();
 
-
-const enableForms = function() {
+//форма в активном состоянии
+const enableForms = () => {
   adForm.classList.remove('ad-form--disabled');
   for (let i=0; i<elementsForm.length; i++) {
     elementsForm[i].removeAttribute('disabled', 'disabled');
@@ -114,9 +116,19 @@ const onChangeRoomCapacity = () => {
   }
   capacityOption.reportValidity();
 };
-
 capacityOption.addEventListener('change', onChangeRoomCapacity);
-
 roomOption.addEventListener('change', onChangeRoomCapacity);
 
-export {enableForms};
+const setFormSubmit = (onSuccess) => {
+  adForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    sendData(
+      () => onSuccess(),
+      () => showErrorSent(),
+      new FormData(evt.target),
+    );
+  });
+};
+
+
+export {enableForms, setFormSubmit};

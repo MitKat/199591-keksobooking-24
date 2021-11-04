@@ -1,24 +1,30 @@
-import {enableForms} from '/js/form-offer.js';
-import {similarOffer} from '/js/generate-offer.js';
-import {getPopupItem} from '/js/popup.js';
+import {startPoint} from './utils/data.js';
+import {enableForms} from './form-offer.js';
+import {getPopupItem} from './popup.js';
 
-const LAT_TOKIO = 35.68950;
-const LNG_TOKIO = 139.69171;
-const addressInput = document.querySelector('#address');
 const FLOAT_POINT = 5;
-const setMainAddress = (lat, lng) => {
+const addressInput = document.querySelector('#address');
+const mainPinIcon = L.icon({
+  iconUrl: '/img/main-pin.svg',
+  iconSize: [52, 52],
+  iconAnchor: [26, 52],
+});
+const otherIcon = L.icon({
+  iconUrl: 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg',
+  iconSize: [40, 40],
+  iconAnchor: [20, 40],
+});
+
+const setMainAddress = ({lat, lng}) => {
   addressInput.value = `${lat.toFixed(FLOAT_POINT)}; ${lng.toFixed(FLOAT_POINT)}`;
 };
 
 const map = L.map('map-canvas')
   .on('load', () => {
+    setMainAddress(startPoint);
     enableForms();
-    setMainAddress(LAT_TOKIO, LNG_TOKIO);
   })
-  .setView({
-    lat: LAT_TOKIO,
-    lng: LNG_TOKIO,
-  }, 9);
+  .setView(startPoint, 12);
 
 L.tileLayer(
   'https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png',
@@ -26,19 +32,10 @@ L.tileLayer(
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
   },
 ).addTo(map);
-
 //создаем главный маркер
-const mainPinIcon = L.icon({
-  iconUrl: '/img/main-pin.svg',
-  iconSize: [52, 52],
-  iconAnchor: [26, 52],
-});
 
 const mainMarker = L.marker(
-  {
-    lat: LAT_TOKIO,
-    lng: LNG_TOKIO,
-  },
+  startPoint,
   {
     draggable: true,
     icon: mainPinIcon,
@@ -48,27 +45,29 @@ mainMarker.addTo(map);
 
 mainMarker.on('moveend', (evt) => {
   const mainAnchor = evt.target.getLatLng();
-  setMainAddress(mainAnchor.lat, mainAnchor.lng);
+  setMainAddress(mainAnchor);
 });
 
-//маркеры похижих объявлений
 const markerGroup = L.layerGroup().addTo(map);
 
-for (const item of similarOffer) {
-  const icon = L.icon({
-    iconUrl: 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg',
-    iconSize: [40, 40],
-    iconAnchor: [20, 40],
-  });
-  const marker = L.marker(
-    item.location,
-    {
-      icon,
-    },
-  );
+const getBalun = (offerArray) => {
+  for (const item of offerArray) {
+    const marker = L.marker(
+      item.location,
+      {
+        icon: otherIcon,
+      },
+    );
+    marker
+      .addTo(markerGroup)
+      .bindPopup(getPopupItem(item));
+  }
+};
 
-  marker
-    .addTo(markerGroup)
-    .bindPopup(getPopupItem(item));
-}
+const resetMarkerMap = (point) => {
+  mainMarker.setLatLng(point);
+  setMainAddress(point);
+  map.closePopup();
+};
 
+export {getBalun, resetMarkerMap};
