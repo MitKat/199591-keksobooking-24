@@ -9,7 +9,7 @@ const mainPinIcon = L.icon({
   iconSize: [52, 52],
   iconAnchor: [26, 52],
 });
-const otherIcon = L.icon({
+const pinIcon = L.icon({
   iconUrl: 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg',
   iconSize: [40, 40],
   iconAnchor: [20, 40],
@@ -32,8 +32,8 @@ L.tileLayer(
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
   },
 ).addTo(map);
-//создаем главный маркер
 
+//создаем главный маркер
 const mainMarker = L.marker(
   startPoint,
   {
@@ -55,7 +55,7 @@ const getBalun = (offerArray) => {
     const marker = L.marker(
       item.location,
       {
-        icon: otherIcon,
+        icon: pinIcon,
       },
     );
     marker
@@ -64,10 +64,10 @@ const getBalun = (offerArray) => {
   }
 };
 
-const resetMarkerMap = (point) => {
-  mainMarker.setLatLng(point);
-  setMainAddress(point);
+const resetMainMarker = () => {
+  mainMarker.setLatLng(startPoint);
+  setMainAddress(startPoint);
   map.closePopup();
 };
 
-export {getBalun, resetMarkerMap};
+export {getBalun, resetMainMarker};

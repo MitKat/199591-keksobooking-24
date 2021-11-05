@@ -1,4 +1,4 @@
-import {showErrorSent} from './success-sent.js';
+import {showErrorSent} from './message-sent-form.js';
 import {sendData} from './utils/api.js';
 
 const adForm = document.querySelector('.ad-form');
@@ -119,16 +119,37 @@ const onChangeRoomCapacity = () => {
 capacityOption.addEventListener('change', onChangeRoomCapacity);
 roomOption.addEventListener('change', onChangeRoomCapacity);
 
-const setFormSubmit = (onSuccess) => {
+//сброс формы в начальное состояние
+const btnReset = adForm.querySelector('.ad-form__reset');
+
+const resetForm = () => {
+  adForm.reset();
+};
+
+const setOnFormReset = (callback)=>{
+  btnReset.addEventListener('click', (evt)=>{
+    evt.preventDefault();
+    resetForm();
+    callback();
+  });
+};
+
+//отправка формы на сервер
+const setFormSubmit = (onSuccess, onResetMarker) => {
   adForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
     sendData(
-      () => onSuccess(),
+      () => {
+        onSuccess();
+        resetForm();
+        onResetMarker();
+      },
       () => showErrorSent(),
       new FormData(evt.target),
     );
+
   });
 };
 
 
-export {enableForms, setFormSubmit};
+export {enableForms, setFormSubmit, setOnFormReset};

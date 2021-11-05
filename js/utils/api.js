@@ -1,8 +1,8 @@
 const getData = (onSuccess, onFail) => {
   fetch('https://24.javascript.pages.academy/keksobooking/data')
     .then((response) => response.json())
-    .then((tender) => {
-      onSuccess(tender);
+    .then((offers) => {
+      onSuccess(offers);
     })
     .catch(() => {
       onFail('Ошибка на сервере. Подождите, мы уже решаем проблему.');

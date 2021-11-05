@@ -6,6 +6,7 @@ const renderType = {
   hotel: 'Отель',
 };
 
+const ALERT_SHOW_TIME = 5000;
 const LAT_TOKIO = 35.68950;
 const LNG_TOKIO = 139.69171;
 
@@ -15,8 +16,6 @@ const startPoint = {
 };
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
-
-const ALERT_SHOW_TIME = 5000;
 
 const showAlert = (message) => {
   const alertContainer = document.createElement('div');

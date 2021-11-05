@@ -1,34 +1,20 @@
 
 import './popup.js';
 import {getData} from './utils/api.js';
-import {showSuccessSent} from './success-sent.js';
-import {showAlert, startPoint} from './utils/data.js';
-import {setFormSubmit} from './form-offer.js';
-import {getBalun, resetMarkerMap} from './map.js';
+import {showSuccessSent} from './message-sent-form.js';
+import {showAlert} from './utils/data.js';
+import {setFormSubmit, setOnFormReset} from './form-offer.js';
+import {getBalun, resetMainMarker} from './map.js';
 
 const SIMILAR_OFFER_COUNT = 10;
 
 getData(
-  (tender) => getBalun(tender.slice(0, SIMILAR_OFFER_COUNT)),
+  (offers) => getBalun(offers.slice(0, SIMILAR_OFFER_COUNT)),
   () => showAlert('Ошибка на сервере. Подождите, мы уже решаем проблему.'),
 );
 
-//сброс формы в начальное состояние
-const adForm = document.querySelector('.ad-form');
-const btnReset = document.querySelector('.ad-form__reset');
-// const btnSubmit = document.querySelector('.ad-form__submit');
+//отправка формы
+setFormSubmit(showSuccessSent, resetMainMarker);
 
-const resetForm = (point) => {
-  adForm.reset();
-  resetMarkerMap(point);
-};
-
-btnReset.addEventListener('click', (evt) => {
-  evt.preventDefault();
-  resetForm(startPoint);
-});
-// btnSubmit.addEventListener('click', () => {
-//   resetForm(startPoint);
-// });
-
-setFormSubmit(showSuccessSent);
+//очистить форму
+setOnFormReset(resetMainMarker);
