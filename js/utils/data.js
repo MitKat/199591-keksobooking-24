@@ -5,6 +5,7 @@ const renderType = {
   house: 'Дом',
   hotel: 'Отель',
 };
+const SIMILAR_OFFER_COUNT = 10;
 
 const ALERT_SHOW_TIME = 5000;
 const LAT_TOKIO = 35.68950;
@@ -36,4 +37,4 @@ const showAlert = (message) => {
   }, ALERT_SHOW_TIME);
 };
 
-export {renderType, isEscapeKey, startPoint, showAlert};
+export {renderType, SIMILAR_OFFER_COUNT, isEscapeKey, startPoint, showAlert};

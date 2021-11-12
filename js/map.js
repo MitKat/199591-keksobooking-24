@@ -64,10 +64,14 @@ const getBalun = (offerArray) => {
   }
 };
 
+const resetMarker = () => {
+  markerGroup.clearLayers();
+};
+
 const resetMainMarker = () => {
   mainMarker.setLatLng(startPoint);
   setMainAddress(startPoint);
   map.closePopup();
 };
 
-export {getBalun, resetMainMarker};
+export {getBalun, resetMainMarker, resetMarker};

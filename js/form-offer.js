@@ -120,14 +120,14 @@ capacityOption.addEventListener('change', onChangeRoomCapacity);
 roomOption.addEventListener('change', onChangeRoomCapacity);
 
 //сброс формы в начальное состояние
-const btnReset = adForm.querySelector('.ad-form__reset');
+const resetButton = adForm.querySelector('.ad-form__reset');
 
 const resetForm = () => {
   adForm.reset();
 };
 
 const setOnFormReset = (callback)=>{
-  btnReset.addEventListener('click', (evt)=>{
+  resetButton.addEventListener('click', (evt)=>{
     evt.preventDefault();
     resetForm();
     callback();
