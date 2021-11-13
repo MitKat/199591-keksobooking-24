@@ -62,11 +62,9 @@ const getFilterOffer = (offer) => {
 };
 
 const compareOffers = (offerA, offerB) => {
-  if (offerA.offer.features && offerB.offer.features) {
-    const rankA = offerA.offer.features.length;
-    const rankB = offerB.offer.features.length;
-    return rankB - rankA;
-  }
+  const featuresCountA = Array.isArray(offerA.offer.features) ? offerA.offer.features.length : 0;
+  const featuresCountB = Array.isArray(offerB.offer.features) ? offerB.offer.features.length : 0;
+  return featuresCountB - featuresCountA;
 };
 
 const setFilterOffers = (callback) => {
