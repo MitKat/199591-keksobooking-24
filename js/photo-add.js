@@ -2,6 +2,9 @@ const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 
 const fileAvatar = document.querySelector('.ad-form__field input[type=file]');
 const previewAvatar = document.querySelector('.ad-form-header__preview img');
+const filePhotoForm = document.querySelector('.ad-form__upload input[type=file]');
+const photoContainer = document.querySelector('.ad-form__photo-container');
+const previewPhotoForm = photoContainer.querySelector('.ad-form__photo');
 
 //загрузка автара
 fileAvatar.addEventListener('change', () => {
@@ -16,11 +19,6 @@ fileAvatar.addEventListener('change', () => {
 });
 
 //загрузка фотографий жилья
-const filePhotoForm = document.querySelector('.ad-form__upload input[type=file]');
-const photoContainer = document.querySelector('.ad-form__photo-container');
-const previewPhotoForm = photoContainer.querySelector('.ad-form__photo');
-
-
 filePhotoForm.addEventListener('change', () => {
   const photoAddForm = previewPhotoForm.cloneNode(true);
 

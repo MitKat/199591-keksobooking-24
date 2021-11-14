@@ -3,8 +3,9 @@ import {isEscapeKey} from './utils/data.js';
 //выводим сообщение об успешной отправки формы
 const messageContainer = document.querySelector('body');
 const successTemplate = document.querySelector('#success');
-const success = successTemplate.content.querySelector('.success');
-const successItem = success.cloneNode(true);
+const successMessageContent = successTemplate.content.querySelector('.success');
+const errorTemplate = document.querySelector('#error');
+const errorMessageContent = errorTemplate.content.querySelector('.error');
 
 const onSuccessEscKeydown = (evt) => {
   if (isEscapeKey(evt)) {
@@ -14,43 +15,42 @@ const onSuccessEscKeydown = (evt) => {
 };
 
 function closeMessageSuccess () {
-  messageContainer.removeChild(successItem);
+  const successBlock = messageContainer.querySelector('.success');
+  messageContainer.removeChild(successBlock);
   document.removeEventListener('keydown', onSuccessEscKeydown);
 }
 
 const showSuccessSent = () => {
-  messageContainer.append(successItem);
-
+  const successMessage = successMessageContent.cloneNode(true);
+  messageContainer.append(successMessage);
   document.addEventListener('keydown', onSuccessEscKeydown);
-  successItem.addEventListener('click',() => {
+  successMessage.addEventListener('click',() => {
     closeMessageSuccess();
   });
 };
 
 //выводим сообщение об ошибки отправки формы
-const errorTemplate = document.querySelector('#error');
-const errorSent = errorTemplate.content.querySelector('.error');
-const errorSentItem = errorSent.cloneNode(true);
-const errorButton = errorSentItem.querySelector('.error__button');
-
 const onErrorEscKeydown = (evt) => {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
     closeMessageError();
   }
 };
+
 function closeMessageError () {
-  messageContainer.removeChild(errorSentItem);
+  const errorMessageBlock = messageContainer.querySelector('.error');
+  messageContainer.removeChild(errorMessageBlock);
   document.removeEventListener('keydown', onErrorEscKeydown);
 }
 
 const showErrorSent = () => {
-  messageContainer.append(errorSentItem);
+  const errorMessage = errorMessageContent.cloneNode(true);
+  const errorButton = errorMessage.querySelector('.error__button');
+  messageContainer.append(errorMessage);
   errorButton.addEventListener('click', () => {
     closeMessageError();
   });
   document.addEventListener('keydown', onErrorEscKeydown);
 };
-
 
 export {showSuccessSent, showErrorSent};

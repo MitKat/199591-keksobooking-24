@@ -1,6 +1,7 @@
 import {SIMILAR_OFFER_COUNT} from './utils/data.js';
 import {getBalun} from './map.js';
 
+const ANY_VALUE = 'any';
 const PriceRange = {
   low: 10000,
   high: 50000,
@@ -11,8 +12,6 @@ const filtersPrice = filtersContainer.querySelector('#housing-price');
 const filtersRooms = filtersContainer.querySelector('#housing-rooms');
 const filtersGuests = filtersContainer.querySelector('#housing-guests');
 const filtersFeatures = filtersContainer.querySelectorAll('.map__checkbox');
-
-const ANY_VALUE = 'any';
 
 const getFilterOffer = (offer) => {
 
