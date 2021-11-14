@@ -1,5 +1,6 @@
 import {showErrorSent} from './message-sent-form.js';
 import {sendData} from './utils/api.js';
+import {resetPhotosForm} from './photo-add.js';
 
 const adForm = document.querySelector('.ad-form');
 const elementsForm = adForm.children;
@@ -123,6 +124,7 @@ roomOption.addEventListener('change', onChangeRoomCapacity);
 const resetButton = adForm.querySelector('.ad-form__reset');
 
 const resetForm = () => {
+  resetPhotosForm();
   adForm.reset();
 };
 
