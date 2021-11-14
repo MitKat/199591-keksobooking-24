@@ -1,4 +1,5 @@
 import './popup.js';
+import './photo-add.js';
 import './form-fiters.js';
 import {getData} from './utils/api.js';
 import {showSuccessSent} from './message-sent-form.js';
