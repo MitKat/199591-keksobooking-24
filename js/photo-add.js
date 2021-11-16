@@ -1,4 +1,5 @@
-const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+const FILES_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+const PATH_IMG_AVATAR_RESET = 'img/muffin-grey.svg';
 
 const fileAvatar = document.querySelector('.ad-form__field input[type=file]');
 const previewAvatar = document.querySelector('.ad-form-header__preview img');
@@ -11,7 +12,7 @@ fileAvatar.addEventListener('change', () => {
   const file = fileAvatar.files[0];
   const fileName = file.name.toLowerCase();
 
-  const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
+  const matches = FILES_TYPES.some((it) => fileName.endsWith(it));
 
   if (matches) {
     previewAvatar.src = URL.createObjectURL(file);
@@ -24,7 +25,7 @@ filePhotoForm.addEventListener('change', () => {
 
   const file = filePhotoForm.files[0];
   const fileName = file.name.toLowerCase();
-  const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
+  const matches = FILES_TYPES.some((it) => fileName.endsWith(it));
 
   const photoItem = document.createElement('img');
   photoItem.style.width = '70px';
@@ -40,7 +41,7 @@ filePhotoForm.addEventListener('change', () => {
 });
 
 const resetPhotosForm = () => {
-  previewAvatar.src = 'img/muffin-grey.svg';
+  previewAvatar.src = PATH_IMG_AVATAR_RESET;
   const photosForm = photoContainer.querySelectorAll('.ad-form__photo');
   for (let i=0; i < photosForm.length-1; i++) {
     photoContainer.removeChild(photosForm[i]);

@@ -27,33 +27,37 @@ const roomOption = document.querySelector('#room_number');
 const capacityOption = document.querySelector('#capacity');
 const resetButton = adForm.querySelector('.ad-form__reset');
 
+
+const disableElementsForm = (elements) => {
+  for (let i=0; i<elements.length; i++) {
+    elements[i].disabled = true;
+  }
+};
+
+const enableElementsForm = (elements) => {
+  for (let i=0; i<elements.length; i++) {
+    elements[i].disabled = false;
+  }
+};
 //форма в неактивном состоянии
 const disableForms = () => {
   adForm.classList.add('ad-form--disabled');
-  for (let i=0; i<elementsForm.length; i++) {
-    elementsForm[i].setAttribute('disabled', 'disabled');
-  }
+  disableElementsForm(elementsForm);
 
   mapFilters.classList.add('map__filters--disabled');
-  for (let i=0; i<elementsMapFilters.length; i++) {
-    elementsMapFilters[i].setAttribute('disabled', 'disabled');
-  }
+  disableElementsForm(elementsMapFilters);
 };
 disableForms();
 
 //форма в активном состоянии
-const enableForms = () => {
+const enableFormOffer = () => {
   adForm.classList.remove('ad-form--disabled');
-  for (let i=0; i<elementsForm.length; i++) {
-    elementsForm[i].removeAttribute('disabled', 'disabled');
-  }
-
-  mapFilters.classList.remove('map__filters--disabled');
-  for (let i=0; i<elementsMapFilters.length; i++) {
-    elementsMapFilters[i].removeAttribute('disabled', 'disabled');
-  }
+  enableElementsForm(elementsForm);
 };
-
+const enableFormFilters = () => {
+  mapFilters.classList.remove('map__filters--disabled');
+  enableElementsForm(elementsMapFilters);
+};
 //валидация заголовка объявления
 titleInput.addEventListener('input', () => {
   const valueLength = titleInput.value.length;
@@ -122,6 +126,7 @@ roomOption.addEventListener('change', onChangeRoomCapacity);
 const resetForm = () => {
   resetPhotosForm();
   adForm.reset();
+  priceInput.placeholder = MinPriceType[typeOption.value];
 };
 
 const setOnFormReset = (callback)=>{
@@ -149,4 +154,4 @@ const setFormSubmit = (onSuccess, onResetMarker) => {
   });
 };
 
-export {enableForms, setFormSubmit, setOnFormReset};
+export {enableFormOffer, enableFormFilters, setFormSubmit, setOnFormReset};

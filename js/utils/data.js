@@ -1,4 +1,4 @@
-const renderType = {
+const RenderType = {
   palace: 'Дворец',
   bungalow: 'Бунгало',
   flat: 'Квартира',
@@ -10,12 +10,14 @@ const ALERT_SHOW_TIME = 5000;
 const LAT_TOKIO = 35.68950;
 const LNG_TOKIO = 139.69171;
 
-const startPoint = {
+const StartPoint = {
   lat: LAT_TOKIO,
   lng: LNG_TOKIO,
 };
 
-const isEscapeKey = (evt) => evt.key === 'Escape';
+const NAME_KEY_ESCAPE = 'Escape';
+
+const isEscapeKey = (evt) => evt.key === NAME_KEY_ESCAPE;
 
 const showAlert = (message) => {
   const alertContainer = document.createElement('div');
@@ -36,4 +38,4 @@ const showAlert = (message) => {
   }, ALERT_SHOW_TIME);
 };
 
-export {renderType, SIMILAR_OFFER_COUNT, isEscapeKey, startPoint, showAlert};
+export {RenderType, SIMILAR_OFFER_COUNT, isEscapeKey, StartPoint, showAlert};

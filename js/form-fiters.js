@@ -6,6 +6,9 @@ const PriceRange = {
   low: 10000,
   high: 50000,
 };
+const LOW_PRICE = 'low';
+const MIDDLE_PRICE = 'middle';
+const HIGH_PRICE = 'high';
 const filtersContainer = document.querySelector('.map__filters');
 const filtersType = filtersContainer.querySelector('#housing-type');
 const filtersPrice = filtersContainer.querySelector('#housing-price');
@@ -22,11 +25,11 @@ const getFilterOffer = (offer) => {
   let rangePrice = '';
 
   if (offer.offer.price <= PriceRange.low) {
-    rangePrice = 'low';
+    rangePrice = LOW_PRICE;
   } else if (offer.offer.price > PriceRange.low && offer.offer.price < PriceRange.high) {
-    rangePrice = 'middle';
+    rangePrice = MIDDLE_PRICE;
   } else {
-    rangePrice = 'high';
+    rangePrice = HIGH_PRICE;
   }
 
   if (filtersPrice.value !== rangePrice && filtersPrice.value !== ANY_VALUE) {

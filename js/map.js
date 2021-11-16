@@ -1,30 +1,37 @@
-import {startPoint} from './utils/data.js';
-import {enableForms} from './form-offer.js';
+import {StartPoint} from './utils/data.js';
+import {enableFormOffer} from './form-offer.js';
 import {getPopupItem} from './popup.js';
 
+const WIDTH_MAIN_ICON = 52;
+const HEIGHT_MAIN_ICON = 52;
+const WIDTH_ICON = 40;
+const HEIGHT_ICON = 40;
+const WIDTH_MAIN_ANCHOR = 26;
+const WIDTH_ANCHOR = 20;
+const START_SCALE = 12;
 const FLOAT_POINT = 5;
 const addressInput = document.querySelector('#address');
 const mainPinIcon = L.icon({
   iconUrl: '/img/main-pin.svg',
-  iconSize: [52, 52],
-  iconAnchor: [26, 52],
+  iconSize: [WIDTH_MAIN_ICON, HEIGHT_MAIN_ICON],
+  iconAnchor: [WIDTH_MAIN_ANCHOR, HEIGHT_MAIN_ICON],
 });
 const pinIcon = L.icon({
   iconUrl: 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg',
-  iconSize: [40, 40],
-  iconAnchor: [20, 40],
+  iconSize: [WIDTH_ICON, HEIGHT_ICON],
+  iconAnchor: [WIDTH_ANCHOR, HEIGHT_ICON],
 });
 
 const setMainAddress = ({lat, lng}) => {
-  addressInput.value = `${lat.toFixed(FLOAT_POINT)}; ${lng.toFixed(FLOAT_POINT)}`;
+  addressInput.value = `${lat.toFixed(FLOAT_POINT)}, ${lng.toFixed(FLOAT_POINT)}`;
 };
 
 const map = L.map('map-canvas')
   .on('load', () => {
-    setMainAddress(startPoint);
-    enableForms();
+    setMainAddress(StartPoint);
+    enableFormOffer();
   })
-  .setView(startPoint, 12);
+  .setView(StartPoint, START_SCALE);
 
 L.tileLayer(
   'https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png',
@@ -35,7 +42,7 @@ L.tileLayer(
 
 //создаем главный маркер
 const mainMarker = L.marker(
-  startPoint,
+  StartPoint,
   {
     draggable: true,
     icon: mainPinIcon,
@@ -43,7 +50,7 @@ const mainMarker = L.marker(
 );
 mainMarker.addTo(map);
 
-mainMarker.on('moveend', (evt) => {
+mainMarker.on('move', (evt) => {
   const mainAnchor = evt.target.getLatLng();
   setMainAddress(mainAnchor);
 });
@@ -51,17 +58,17 @@ mainMarker.on('moveend', (evt) => {
 const markerGroup = L.layerGroup().addTo(map);
 
 const getBalun = (offerArray) => {
-  for (const item of offerArray) {
+  offerArray.forEach((offer) => {
     const marker = L.marker(
-      item.location,
+      offer.location,
       {
         icon: pinIcon,
       },
     );
     marker
       .addTo(markerGroup)
-      .bindPopup(getPopupItem(item));
-  }
+      .bindPopup(getPopupItem(offer));
+  });
 };
 
 const resetMarker = () => {
@@ -69,8 +76,8 @@ const resetMarker = () => {
 };
 
 const resetMainMarker = () => {
-  mainMarker.setLatLng(startPoint);
-  setMainAddress(startPoint);
+  mainMarker.setLatLng(StartPoint);
+  setMainAddress(StartPoint);
   map.closePopup();
 };
 

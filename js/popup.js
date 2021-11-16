@@ -1,4 +1,4 @@
-import {renderType} from '/js/utils/data.js';
+import {RenderType} from '/js/utils/data.js';
 
 const card = document.querySelector('#card');
 const popup = card.content.querySelector('.popup');
@@ -14,12 +14,12 @@ const getPopupItem = ({author, offer, location}) => {
   popupItem.querySelector('.popup__text--price').textContent = `${offer.price} ₽/ночь`;
   popupItem.querySelector('.popup__text--capacity').textContent = `${offer.rooms} комнат для ${offer.guests} гостей`;
   popupItem.querySelector('.popup__text--time').textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
-  popupItem.querySelector('.popup__type').textContent = renderType[offer.type];
+  popupItem.querySelector('.popup__type').textContent = RenderType[offer.type];
 
   const descriptionElement = popupItem.querySelector('.popup__description');
   (offer.description) ? descriptionElement.textContent = offer.description : popupItem.removeChild(descriptionElement);
 
-  if (offer.features) {
+  if (offer.features && (offer.features.length !== 0)) {
     const featuresFragment = document.createDocumentFragment();
     offer.features.forEach((feature) => {
       const featureItem = popupItem.querySelector(`.popup__feature--${feature}`);
@@ -33,7 +33,7 @@ const getPopupItem = ({author, offer, location}) => {
     popupItem.removeChild(popupItem.querySelector('.popup__features'));
   }
 
-  if(offer.photos) {
+  if(offer.photos && (offer.photos.length !== 0)) {
     const photosFragment = document.createDocumentFragment();
     offer.photos.forEach((photo) => {
       const photoItem = popupItem.querySelector('.popup__photo');
